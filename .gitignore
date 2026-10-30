@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+work/
+*.egg-info/
+.DS_Store
+
+# Machine-local MCP connection configuration
+.cursor/mcp.json

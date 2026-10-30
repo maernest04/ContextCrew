@@ -1,0 +1,12 @@
+[project]
+name = "contextcrew-api"
+version = "0.0.1"
+requires-python = ">=3.13"
+dependencies = ["fastapi>=0.115", "uvicorn>=0.34"]
+
+[project.scripts]
+contextcrew-api = "contextcrew_api.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,6 +1,6 @@
 # ContextCrew implementation plan
 
-Status: planned; application not implemented. Updated: October 29, 2026.
+Status: Phase 0 local spike implemented; real two-client/two-laptop gate pending. Updated: October 30, 2026.
 
 This is the authoritative execution plan for one complete personal-project release. Phases are build order, not separate product versions. Keep implementation checklists here; record completion only after the phase's verification passes.
 
@@ -141,7 +141,7 @@ ContextCrew/
 
 The API owns shared state and permissions; the bridge owns local file access and tool integration; the web app presents the shared records. Keep route handlers thin and put transactional rules in API services. Start with the single `models.py` and `schemas.py`; split them only if their size warrants it.
 
-Use one Python workspace for API/bridge dependencies and npm for the single frontend. Reuse contracts through existing packages or generated OpenAPI types where practical; do not create a general-purpose shared library upfront. Keep real environment files, bridge credentials, uploaded artifacts, database volumes, and generated builds outside tracked source. No directories or application scaffold have been created by this plan.
+Use one Python workspace for API/bridge dependencies and npm for the single frontend. Reuse contracts through existing packages or generated OpenAPI types where practical; do not create a general-purpose shared library upfront. Keep real environment files, bridge credentials, uploaded artifacts, database volumes, and generated builds outside tracked source. The Phase 0 scaffold now exists; the tree above describes the full release, including files not needed yet.
 
 ## 3. Identity, room membership, and sharing
 
@@ -245,13 +245,15 @@ Supplied instructions: fetch context before choosing work; publish material deci
 
 ### Phase 0 — Contracts and interoperability spike
 
-- [ ] Create the minimal Python/web workspace following the directory layout above; lock compatible dependencies and record tested versions.
-- [ ] Define request/response schemas, record types, policy merge rules, cursor semantics and error responses.
-- [ ] Build a temporary two-tool bridge against a minimal API: publish and retrieve one synthetic record.
+- [x] Create the minimal Python/web workspace following the directory layout above; lock compatible dependencies and record tested versions.
+- [x] Define request/response schemas, record types, policy merge rules, cursor semantics and error responses.
+- [x] Build a temporary two-tool bridge against a minimal API: publish and retrieve one synthetic record.
 - [ ] Test the bridge in two different real MCP clients on two laptops. Try Codex and Claude Code first; check Gemini CLI as an additional compatibility target using its then-current documentation.
 - [ ] Capture exact client versions, configuration, approvals and limitations without storing credentials.
 
 Verify: engineer A's record is retrieved by engineer B without an open dashboard. If installation/authentication or automatic tool calling is unreliable, resolve it before building the dashboard. Generic MCP support is not a substitute for this gate.
+
+Local evidence: 18 tests passed, including two independent SDK stdio clients using separate synthetic credentials and a real HTTP server. Python dependencies are pinned in `uv.lock`; frontend dependencies in `apps/web/package-lock.json`. See [Phase 0 contracts and client setup](phase-0.md) for the implemented contract, tested versions, client examples and two-laptop procedure. This is not yet a passed real-assistant interoperability gate. The temporary API is in-memory and loopback-only, with no production auth or sharing-policy enforcement; only synthetic data is permitted. Same-laptop Codex CLI 0.151.0 and Cursor 3.22.12 now exchange real model-driven MCP updates with correct attribution and retry deduplication; see the dated evidence in the Phase 0 reference. Both required one-time approvals. The two-laptop gate, Docker startup, interactive dashboard browser QA, hosted CI, Claude/Gemini client versions, and unattended automatic tool behavior remain unverified.
 
 ### Phase 1 — Persistent identity and general context
 
